@@ -4,8 +4,8 @@ export const LLM_CONFIG = {
   /* Ollama (local) config:
    */
   ollama: true,
-  url: 'http://127.0.0.1:11434',
-  chatModel: 'llama3' as const,
+  url: 'http://144.214.222.24',
+  chatModel: 'wizard-vicuna-uncensored' as const,
   embeddingModel: 'mxbai-embed-large',
   embeddingDimension: 1024,
   // embeddingModel: 'llama3',
@@ -641,8 +641,12 @@ export class ChatCompletionContent {
 }
 
 export async function ollamaFetchEmbedding(text: string) {
+  
+  const url = apiUrl('/api/embeddings');
+  console.log('Fetching embeddings for:', text, url);
+  
   const { result } = await retryWithBackoff(async () => {
-    const resp = await fetch(apiUrl('/api/embeddings'), {
+    const resp = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
